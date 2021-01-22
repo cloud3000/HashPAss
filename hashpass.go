@@ -89,6 +89,9 @@ func CheckPass(u, p, db string) error {
 			s, e = readln(r)
 		}
 	}
+	if e == fmt.Errorf("EOF") {
+		e = fmt.Errorf("Invalid credentials")
+	}
 
 	return e
 }
