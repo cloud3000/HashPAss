@@ -89,7 +89,7 @@ func CheckPass(u, p, db string) error {
 			s, e = readln(r)
 		}
 	}
-	if e == fmt.Errorf("EOF") { // True when username is not found
+	if e != nil && passed != chk { // True when username is not found
 		e = fmt.Errorf("Invalid credentials")
 	}
 
