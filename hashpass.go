@@ -33,7 +33,6 @@ func GetInfo() (string, string, string, error) {
 //  2. Populates credential with Username & Password
 //  3. Marshal credential into json
 //  4. Appends single record json string to Flatfile(db)
-//  5. TODO: Before appending, check if username already exists in db.
 func StorePass(u, p, db string) (int, error) {
 	chk, err := getUser(u, db)
 	if err == nil {
