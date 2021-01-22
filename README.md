@@ -26,12 +26,26 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Overused Password NOT ALLOWED! [%s]\n", pas)
 		os.Exit(2)
 	}
-
+	var cc uint8 = 0
 	switch strings.ToLower(cmd) {
 	case "store":
-		err = hashpass.StorePass(usr, pas, passdb)
+		n, err := hashpass.StorePass(usr, pas, passdb)
+		if n == 0 {
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Error: %s\n", err)
+			} else {
+				fmt.Fprintf(os.Stderr, "StorePass failed to write any data")
+			}
+		}
 	case "check":
-		err = hashpass.CheckPass(usr, pas, passdb)
+		cc, err = hashpass.CheckPass(usr, pas, passdb)
+		if cc != 1 {
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "CheckPass Error: %v", err)
+			} else {
+				fmt.Fprintf(os.Stderr, "Invalid Credentials")
+			}
+		}
 	default:
 		err = fmt.Errorf("%s is not a valid command", cmd)
 	}
@@ -40,7 +54,7 @@ func main() {
 	}
 }
 
+
 ```
 ToDo's: 
 1. Add config.json, and code to support it.
-2. Add code to check for pre-existing user before appending a new record to ./data/pass.db
